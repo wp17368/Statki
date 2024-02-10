@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap"
+      rel="stylesheet"
+    />
+    <title>Statki</title>
+    <meta name="description" content="Our first page" />
+    <meta name="keywords" content="html tutorial template" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="jQuery v3.7.1.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="center">
+      <div class="container">
+        <div>
+          <header id="header" class="invisible">
+            <h1>Ustaw swoją flotę na morzu</h1>
+          </header>
+          <input
+            id="player1-name-input"
+            autocomplete="off"
+            placeholder="Podaj swoją nazwę"
+          />
+          <input
+            id="player2-name-input"
+            class="invisible"
+            autocomplete="off"
+            placeholder="Podaj swoją nazwę"
+          />
+        </div>
+        <div>
+          <table id="shootingBoard"></table>
+          <button id="player-name-button">Zatwierdź</button>
+          <table id="bluePrint"></table>
+        </div>
+        <div>
+          <button id="place-ship-button" class="invisible">
+            Umieść Statek
+          </button>
+          <button class="invisible" id="finish-setup-1">Zatwierdź flotę</button>
+          <button class="invisible" id="finish-setup-2">Zatwierdź flotę</button
+          ><button id="begin-game-button" class="invisible">
+            Rozpocznij grę
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
