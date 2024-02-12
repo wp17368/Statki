@@ -13,6 +13,7 @@ $(document).ready(function () {
   let player2Ships = [];
   let player2Board = [];
   let activePlayer = ``;
+  defaultInputBehaviourOff();
 
   function Cell(row, column) {
     this.column = column;
