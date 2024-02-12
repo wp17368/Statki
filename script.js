@@ -31,7 +31,7 @@ $(document).ready(function () {
   grabUserName1();
   function grabUserName1() {
     $(`#player-name-button`).on(`click`, function () {
-      let userName1 = $(`#player1-name-input`).val();
+      let userName1 = $(`#player1-input`).val();
       player1 = userName1;
       activePlayer = userName1;
       console.log(player1);
@@ -43,7 +43,7 @@ $(document).ready(function () {
     });
   }
   function hidePlayer1NameHtml() {
-    $(`#player1-name-input`).addClass(`invisible`);
+    $(`#player1-input`).addClass(`invisible`);
     $(`#player-name-button`).addClass(`invisible`);
   }
   function showPlayer2SetUpHtml() {
@@ -478,7 +478,7 @@ $(document).ready(function () {
   }
   function grabUserName2() {
     $(`#player-name-button`).on(`click`, function () {
-      let userName2 = $(`#player2-name-input`).val();
+      let userName2 = $(`#player2-input`).val();
       player2 = userName2;
       activePlayer = player2;
       resetBluePrintTable();
@@ -496,11 +496,11 @@ $(document).ready(function () {
     $(`#player-name-button`).off(`click`);
   }
   function showPlayer2NameHtml() {
-    $(`#player2-name-input`).removeClass(`invisible`);
+    $(`#player2-input`).removeClass(`invisible`);
     $(`#player-name-button`).removeClass(`invisible`);
   }
   function hidePlayer2NameHtml() {
-    $(`#player2-name-input`).addClass(`invisible`);
+    $(`#player2-input`).addClass(`invisible`);
     $(`#player-name-button`).addClass(`invisible`);
   }
   function showPlayer2SetUpHtml() {
