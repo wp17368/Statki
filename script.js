@@ -1,6 +1,7 @@
 $(document).ready(function () {
   //CHANGE NAME//
   //IN THE FUTURE, DRAW LENGTH FROM BOARD.LENGTH//
+
   let length = 10;
   let maxShips = 10;
   let maxMasts = 4;
