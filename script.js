@@ -91,7 +91,7 @@ $(document).ready(function () {
   function prepareBody(boardId) {
     let body = `<tbody>`;
     for (let row = 0; row < length; row++) {
-      body += `<tr><td>${row + 1}</td>`;
+      body += `<tr><td id="rowNumber">${row + 1}</td>`;
       for (let column = 0; column < length; column++) {
         body += `<td id="${boardId}-${column + 1}-${row + 1}">
 🌊</td>`;
