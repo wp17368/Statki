@@ -696,4 +696,10 @@ $(document).ready(function () {
       `<h1>🥳 Flota zatopiona, ${activePlayer} wygrywa! 🥳</h1>`
     );
   }
+  function defaultInputBehaviourOff() {
+    $("input").focus(function () {
+      // Prevent autofill suggestions
+      $(this).attr("autocomplete", "new-password");
+    });
+  }
 });
