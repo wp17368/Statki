@@ -24,6 +24,7 @@ header {
 #shootingBoard,
 th,
 td {
+  aspect-ratio: 1 / 1;
   background: transparent;
   border: 1px solid #ccc;
   border-style: dashed;
