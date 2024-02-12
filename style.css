@@ -3,6 +3,7 @@
   color: #2e2e2e;
   font-weight: normal;
 }
+/* test */
 input:focus,
 select:focus,
 textarea:focus,
@@ -29,15 +30,14 @@ td {
   border-style: dashed;
   border-width: 2px;
   border-color: #2e2e2e;
-  text-align: center;
   vertical-align: middle;
+  text-align: center;
 }
 th,
 td {
   width: 2em;
   height: 2em;
 }
-
 input {
   font-size: 4vw;
   margin-top: 10vh;
@@ -49,6 +49,11 @@ input {
   border-color: #2e2e2e;
   background: none;
   text-align: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 ::placeholder {
   color: #2e2e2e;
@@ -71,7 +76,7 @@ button {
   margin-bottom: 3vh;
   margin-top: 3vh;
   padding: 0.5vw;
-  font-size: 2.5vw;
+  font-size: 4.5vh;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -88,7 +93,6 @@ button {
   transition: box-shadow 0.15s, transform 0.15s;
   will-change: box-shadow, transform;
 }
-
 button:hover {
   box-shadow: -1px 3px 19px -11px rgba(66, 68, 90, 1);
   transform: translateY(-2px);
