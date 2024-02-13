@@ -84,7 +84,11 @@ $(document).ready(function () {
     header += `<tr>`;
     header += `<th> </th>`;
     for (let column = 0; column < length; column++) {
-      header += `<th>${column + 1}</th>`;
+      if (column === 9) {
+        header += `<th>X</th>`;
+      } else {
+        header += `<th>${column + 1}</th>`;
+      }
     }
     header += `</tr>`;
     header += `</thead>`;
@@ -93,7 +97,11 @@ $(document).ready(function () {
   function prepareBody(boardId) {
     let body = `<tbody>`;
     for (let row = 0; row < length; row++) {
-      body += `<tr><td id="rowNumber">${row + 1}</td>`;
+      if (row === 9) {
+        body += `<tr><td id="rowNumber">X</td>`;
+      } else {
+        body += `<tr><td id="rowNumber">${row + 1}</td>`;
+      }
       for (let column = 0; column < length; column++) {
         body += `<td id="${boardId}-${column + 1}-${row + 1}">
 🌊</td>`;
