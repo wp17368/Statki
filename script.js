@@ -13,7 +13,6 @@ $(document).ready(function () {
   let player2Ships = [];
   let player2Board = [];
   let activePlayer = ``;
-  defaultInputBehaviourOff();
 
   function Cell(row, column) {
     this.column = column;
@@ -704,11 +703,5 @@ $(document).ready(function () {
     $(`#header`).html(
       `<h1>🥳 Flota zatopiona, ${activePlayer} wygrywa! 🥳</h1>`
     );
-  }
-  function defaultInputBehaviourOff() {
-    $("input").focus(function () {
-      // Prevent autofill suggestions
-      $(this).attr("autocomplete", "new-password");
-    });
   }
 });
