@@ -6,7 +6,6 @@ $(document).ready(function () {
   let maxShips = 10;
   let maxMasts = 4;
   let bluePrintBoard = [];
-  //change names to 'first' or 'second'
   let player1 = ``;
   let player2 = ``;
   let firstUserShips = [];
