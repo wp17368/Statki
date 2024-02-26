@@ -65,11 +65,14 @@ input::-webkit-inner-spin-button {
 .invisible {
   display: none;
 }
-.player1 {
+.firstUser {
   background: #428d93;
 }
-.player2 {
+.secondUser {
   background: #9e4c3c;
+}
+.noUser {
+  background-color: rgb(123, 123, 123);
 }
 button {
   margin-top: 1em;
