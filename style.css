@@ -22,7 +22,14 @@ body {
 header {
   text-align: center;
 }
-
+#ships-remaining {
+  text-align: right;
+  padding-top: 2vh;
+  padding-right: 2vw;
+  font-size: calc(1vw + 1vh);
+  position: absolute;
+  right: 0;
+}
 th,
 td {
   line-height: 1;

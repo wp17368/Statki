@@ -10,7 +10,8 @@ $(document).ready(function () {
   let secondUserShips = [];
   let secondUserBoard = [];
   let activePlayer = ``;
-
+  let shipsRemaining = ``;
+  let sailboatEmoji = `⛵`;
   function Cell(row, column) {
     this.column = column;
     this.row = row;
@@ -24,7 +25,6 @@ $(document).ready(function () {
     this.shipTerritory = false;
     this.active = true;
   }
-
   function showUserNameHtml(targetUser) {
     $(`#app`).html(`<div id="${targetUser}-user-name" class="row">
   <div class="col">
@@ -68,7 +68,25 @@ $(document).ready(function () {
             </div>
           </div>
         </div>
+        <div id="ships-remaining" class="justify-content-center align-items-center align-text-cetner" >
+        </div>
       </div>`);
+  }
+  function showRemainingShips() {
+    $(`#ships-remaining`).html(
+      `   <p>
+           ${sailboatEmoji.repeat(1)} ${shipsRemaining[1]}
+          </p>
+          <p>
+            ${sailboatEmoji.repeat(2)} ${shipsRemaining[2]} 
+          </p>
+          <p>
+            ${sailboatEmoji.repeat(3)} ${shipsRemaining[3]} 
+          </p>
+          <p>
+            ${sailboatEmoji.repeat(4)} ${shipsRemaining[4]} 
+          </p>`
+    );
   }
   function showBeginGameHtml() {
     $(`#app`).html(`<div class="row">
@@ -154,7 +172,6 @@ $(document).ready(function () {
       $(`#header`).html(`<h1>Pudło!</h1>`);
     }
   }
-
   grabFirstUserName();
   function grabFirstUserName() {
     showUserNameHtml(`first`);
@@ -167,6 +184,12 @@ $(document).ready(function () {
   function prepareUserNameOnclick(user, targetShipBoard) {
     let userName = $(`#${user}-user-input`).val();
     activePlayer = userName;
+    shipsRemaining = {
+      1: 4,
+      2: 3,
+      3: 2,
+      4: 1,
+    };
     showUserBoardHtml(userName);
     beginUserSetup(length, `${userName}-user-ship-button`);
     preparePlaceShipOnclick(
@@ -307,7 +330,6 @@ $(document).ready(function () {
     }
   }
   function doesClickedCellTouchShipCell(board, column, row) {
-    console.log($(`#bluePrint-${column + 1}-${row + 1}`).html());
     if (
       !areAllCellsSea(board) &&
       !isAdjacentToSelected(board, column, row) &&
@@ -457,6 +479,8 @@ $(document).ready(function () {
         }
       }
       targetShips.push(ship);
+      shipsRemaining[ship.length]--;
+      showRemainingShips();
       if (targetShips.length === maxShips) {
         $(`#${activePlayer}-user-ship-button`).addClass(`invisible`);
         finishStartup();
@@ -479,7 +503,6 @@ $(document).ready(function () {
     let shipLength = board.flatMap((innerArr) =>
       innerArr.filter((obj) => obj.selected === true)
     ).length;
-    console.log(shipLength);
     return shipLength;
   }
   function isShipNumberLegal(shipLength, shipBoard) {
