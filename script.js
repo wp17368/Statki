@@ -6,12 +6,13 @@ $(document).ready(function () {
   let maxShips = 10;
   let maxMasts = 4;
   let bluePrintBoard = [];
+  //change names to 'first' or 'second'
   let player1 = ``;
   let player2 = ``;
-  let player1Ships = [];
+  let firstUserShips = [];
   let player1Board = [];
-  let player2Ships = [];
-  let player2Board = [];
+  let secondUserShips = [];
+  let secondUserBoard = [];
   let activePlayer = ``;
 
   function Cell(row, column) {
@@ -27,38 +28,112 @@ $(document).ready(function () {
     this.shipTerritory = false;
     this.active = true;
   }
-  grabUserName1();
-  function grabUserName1() {
-    $(`#player-name-button`).on(`click`, function () {
-      let userName1 = $(`#player1-input`).val();
-      player1 = userName1;
-      activePlayer = userName1;
-      console.log(player1);
-      hidePlayer1NameHtml();
-      showPlayer2SetUpHtml();
-      announcePlayer();
-      beginUserSetup(length);
-      switchShooterStyle(`player1`);
+  function showUserNameHtml(targetUser) {
+    $(`#app`).html(`<div id="${targetUser}-user-name" class="row">
+  <div class="col">
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 100vh;"
+    >
+      <div class="justify-content-center align-items-center">
+        <input
+          autocomplete="off"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="off"
+          type="text"
+          id="${targetUser}-user-input"
+          placeholder="Podaj swoją nazwę"
+        />
+        <div class="text-center">
+          <button id="${targetUser}-user-name-button" class="">
+            Zatwierdź
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`);
+  }
+  function showUserBoardHtml(targetUser) {
+    $(`#app`).html(`<div id="${targetUser}-user-board" class="row">
+        <div class="col">
+          <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="justify-content-center align-items-center align-text-cetner">            
+              <header class="mx-auto">
+                <h1 id="announce-${targetUser}-user">${targetUser}, ustaw swoją flotę!</h1>
+              </header>
+              <table id="table" class="mx-auto"></table>
+              <div class="text-center">
+                <button id="${targetUser}-user-ship-button" class="">Zatwierdź</button>
+                <button class="invisible" id="finish-${targetUser}-user-board-button">Zatwierdź flotę</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`);
+  }
+  function showBeginGameHtml() {
+    $(`#app`).html(`<div class="row">
+        <div class="col">
+          <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="justify-content-center align-items-center">            
+              <button id="begin-game-button">
+              Rozpocznij grę
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`);
+  }
+  function showGameHtml() {
+    $(`#app`).html(`<div class="row">
+        <div class="col">
+          <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="justify-content-center align-items-center">
+              <header class="mx-auto">
+                <h1 id="header">${activePlayer}, strzelaj!</h1>
+              </header>
+              <table id="shootingBoard" class="mx-auto"></table>
+              <div class="text-center justify-content-center align-items-center">
+                <button id="begin-game-button">
+                Przełącz gracza
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`);
+  }
+  grabFirstUserName();
+  function grabFirstUserName() {
+    showUserNameHtml(`first`);
+    $(`#first-user-name-button`).on(`click`, function () {
+      prepareFirstUserNameOnclick();
     });
   }
-  function hidePlayer1NameHtml() {
-    $(`#player1-input`).addClass(`invisible`);
-    $(`#player-name-button`).addClass(`invisible`);
-  }
-  function showPlayer2SetUpHtml() {
-    $(`#header`).removeClass(`invisible`);
-    $(`#place-ship-button`).removeClass(`invisible`);
-  }
-  function announcePlayer() {
-    $(`#header`).html(`${player1}, ustaw swoją flotę.`);
+  //EXTRACTED grabUserName1 contents
+  function prepareFirstUserNameOnclick() {
+    let userName1 = $(`#first-user-input`).val();
+    player1 = userName1;
+    activePlayer = userName1;
+    showUserBoardHtml(userName1);
+    beginUserSetup(length, `${userName1}-user-ship-button`);
+    preparePlaceShipOnclick(
+      bluePrintBoard,
+      `bluePrint`,
+      firstUserShips,
+      `${userName1}-user-ship-button`
+    );
+    switchShooterStyle(`player1`);
   }
   function beginUserSetup(length) {
     boardBluePrint(length);
-    displayBoard(`bluePrint`, `bluePrint`);
-    prepareCellOnclick(bluePrintBoard, `bluePrint`, player1Ships);
-    preparePlaceShipOnclick(bluePrintBoard, `bluePrint`, player1Ships);
+    displayBoard(`table`, `bluePrint`);
+    prepareCellOnclick(bluePrintBoard, `bluePrint`);
   }
   function boardBluePrint(length) {
+    bluePrintBoard = [];
     let cells = [];
     for (let row = 0; row < length; row++) {
       for (let column = 0; column < length; column++) {
@@ -173,7 +248,6 @@ $(document).ready(function () {
     return true;
   }
   function isAdjacentToSelected(board, column, row) {
-    // Check if the clicked cell is adjacent to any selected cell
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
         if (
@@ -181,11 +255,11 @@ $(document).ready(function () {
           ((Math.abs(column - i) === 1 && row === j) ||
             (Math.abs(row - j) === 1 && column === i))
         ) {
-          return true; // Clicked cell is adjacent to a selected cell
+          return true;
         }
       }
     }
-    return false; // Clicked cell is not adjacent to any selected cell
+    return false;
   }
   function areAtLeastNCellsSelected(board, n) {
     let selectedCount = 0;
@@ -249,7 +323,6 @@ $(document).ready(function () {
   }
   function areSelectedCellsConnected(board) {
     const selectedCells = [];
-    // Collect all selected cells
     for (let row = 0; row < length; row++) {
       for (let column = 0; column < length; column++) {
         if (board[column][row].selected) {
@@ -257,9 +330,8 @@ $(document).ready(function () {
         }
       }
     }
-    // Check if selected cells are connected
     if (selectedCells.length === 0) {
-      return false; // No selected cells, they are trivially connected
+      return false;
     }
 
     const visited = new Set();
@@ -366,8 +438,8 @@ $(document).ready(function () {
   function isInactiveShip(board, column, row) {
     return board[column][row].sea === true && board[column][row].ship === true;
   }
-  function preparePlaceShipOnclick(board, boardId, targetShips) {
-    $(`#place-ship-button`).on(`click`, function () {
+  function preparePlaceShipOnclick(board, boardId, targetShips, targetButton) {
+    $(`#${targetButton}`).on(`click`, function () {
       if (countShipLength(board) === 0) {
         alert(`Postaw choć jeden maszt.`);
         return;
@@ -400,18 +472,21 @@ $(document).ready(function () {
         }
       }
       targetShips.push(ship);
-      console.log(activePlayer);
       if (targetShips.length === maxShips) {
-        $(`#place-ship-button`).addClass(`invisible`);
+        $(`#${activePlayer}-user-ship-button`).addClass(`invisible`);
         clearCellOnclick(`bluePrint`);
-        if (activePlayer === player1) {
-          finishPlayer1SetUp();
-        } else if (activePlayer === player2) {
-          finishPlayer2Setup();
-          activePlayer = player1;
-        }
+        finishSetup();
       }
     });
+  }
+  //extracted content of 'if (targetShips.length === maxShips)'
+  function finishSetup() {
+    if (activePlayer === player1) {
+      finishFirstPlayerStartup();
+    } else if (activePlayer === player2) {
+      finishSecondUserSetup();
+      activePlayer = player1;
+    }
   }
   function countShipLength(board) {
     let shipLength = 0;
@@ -473,50 +548,36 @@ $(document).ready(function () {
       }
     }
   }
-  function finishPlayer1SetUp() {
-    $(`#finish-setup-1`).removeClass("invisible");
-    $(`#finish-setup-1`).on(`click`, function () {
-      prepareUserBoard(length, player1Ships, player1Board);
-      hidePlayer1SetUpHtml();
-      showPlayer2NameHtml();
-      grabUserName2();
+  function finishFirstPlayerStartup() {
+    $(`#finish-${activePlayer}-user-board-button`).removeClass("invisible");
+    $(`#finish-${activePlayer}-user-board-button`).on(`click`, function () {
+      prepareUserBoard(length, firstUserShips, player1Board);
+      grabSecondUserName();
       switchShooterStyle("player2");
     });
   }
-  function grabUserName2() {
-    $(`#player-name-button`).on(`click`, function () {
-      let userName2 = $(`#player2-input`).val();
+  function grabSecondUserName() {
+    showUserNameHtml(`second`);
+    $(`#second-user-name-button`).on(`click`, function () {
+      if ($(`#second-user-input`).val() === player1) {
+        alert(`Nazwy graczy muszą się od siebie rónić`);
+        return;
+      }
+      let userName2 = $(`#second-user-input`).val();
       player2 = userName2;
-      activePlayer = player2;
-      resetBluePrintTable();
-      prepareCellOnclick(bluePrintBoard, `bluePrint`, player2Ships);
-      $(`#place-ship-button`).off(`click`);
-      preparePlaceShipOnclick(bluePrintBoard, `bluePrint`, player2Ships);
-      hidePlayer2NameHtml();
-      showPlayer2SetUpHtml(userName2);
+      activePlayer = userName2;
+      showUserBoardHtml(userName2);
+      beginUserSetup(length, `${userName2}-user-ship-button`);
+      preparePlaceShipOnclick(
+        bluePrintBoard,
+        `bluePrint`,
+        secondUserShips,
+        `${userName2}-user-ship-button`
+      );
+      switchShooterStyle(`player2`);
     });
   }
-  function hidePlayer1SetUpHtml() {
-    $(`#header`).addClass(`invisible`);
-    $(`#bluePrint`).addClass(`invisible`);
-    $(`#finish-setup-1`).addClass(`invisible`);
-    $(`#player-name-button`).off(`click`);
-  }
-  function showPlayer2NameHtml() {
-    $(`#player2-input`).removeClass(`invisible`);
-    $(`#player-name-button`).removeClass(`invisible`);
-  }
-  function hidePlayer2NameHtml() {
-    $(`#player2-input`).addClass(`invisible`);
-    $(`#player-name-button`).addClass(`invisible`);
-  }
-  function showPlayer2SetUpHtml() {
-    $(`#header`).html(`${player2}, ustaw swoją flotę.`);
-    $(`#header`).removeClass(`invisible`);
-    $(`#bluePrint`).removeClass(`invisible`);
-    $(`#place-ship-button`).removeClass(`invisible`);
-    switchShooterStyle("player2");
-  }
+
   function prepareUserBoard(length, targetShips, targetBoard) {
     let masts = targetShips.flat(3);
     let cells = [];
@@ -539,32 +600,22 @@ $(document).ready(function () {
       cells = [];
     }
   }
-  function resetBluePrintTable() {
-    bluePrintBoard = [];
-    boardBluePrint(length);
-    displayBoard(`bluePrint`, `bluePrint`);
-    clearCellOnclick(`bluePrint`);
-  }
-  function finishPlayer2Setup() {
-    $(`#finish-setup-2`).removeClass("invisible");
-    $(`#finish-setup-2`).on(`click`, function () {
-      prepareUserBoard(length, player2Ships, player2Board);
-      hideUser2SetUpHtml();
+
+  function finishSecondUserSetup() {
+    $(`#finish-${activePlayer}-user-board-button`).removeClass("invisible");
+    $(`#finish-${activePlayer}-user-board-button`).on(`click`, function () {
+      prepareUserBoard(length, secondUserShips, secondUserBoard);
+      showBeginGameHtml();
       prepareBeginGameOnclick();
-      $(`#begin-game-button`).removeClass(`invisible`);
     });
-  }
-  function hideUser2SetUpHtml() {
-    $(`#finish-setup-2`).addClass("invisible");
-    $(`#header`).addClass(`invisible`);
-    $(`#bluePrint`).addClass(`invisible`);
   }
   function prepareBeginGameOnclick() {
     $(`#begin-game-button`).on(`click`, function () {
-      $(`#header`).removeClass(`invisible`);
-      $(`#shootingBoard`).removeClass(`invisible`);
-      $(`#begin-game-button`).html(`Przełącz gracza`);
+      showGameHtml();
       switchShooterParameters();
+      $(`#begin-game-button`).on(`click`, function () {
+        switchShooterParameters();
+      });
     });
   }
   function switchShooterParameters() {
@@ -573,19 +624,19 @@ $(document).ready(function () {
     let shipBoard;
     if (activePlayer === player1) {
       switchShooterStyle(`player1`);
-      boardId = `player2Board`;
-      board = player2Board;
-      shipBoard = player2Ships;
+      boardId = `secondUserBoard`;
+      board = secondUserBoard;
+      shipBoard = secondUserShips;
       prepareShotClick(boardId, board, shipBoard, activePlayer);
     } else {
       switchShooterStyle(`player2`);
       boardId = `player1Board`;
       board = player1Board;
-      shipBoard = player1Ships;
+      shipBoard = firstUserShips;
       prepareShotClick(boardId, board, shipBoard, activePlayer);
     }
   }
-  function prepareShotClick(boardId, board, shipBoard, activePlayer) {
+  function prepareShotClick(boardId, board, shipBoard) {
     displayBoard(`shootingBoard`, boardId);
     toggleShotCells(boardId, board, shipBoard);
     prepareShootHeader();
@@ -599,7 +650,7 @@ $(document).ready(function () {
     }
   }
   function prepareShootHeader() {
-    $(`#header`).html(`<h1>🔫 ${activePlayer}, strzelaj! 🔫</h1>`);
+    $(`#header`).html(`🔫 ${activePlayer}, strzelaj! 🔫`);
   }
   function toggleShotCells(boardId, board, shipBoard) {
     for (let row = 0; row < length; row++) {
@@ -607,7 +658,11 @@ $(document).ready(function () {
         highlightShotCell(boardId, board, column, row);
         highlightSunkShip(boardId, board, shipBoard);
         $(`#${boardId}-${column + 1}-${row + 1}`).on(`click`, function () {
-          hasBeenShotAlert(board, column, row);
+          if (board[row][column].shot) {
+            $(`#header`).html(`<h1>Silly...</h1>`);
+            alert(`Już tutaj strzelałeś, głupku...`);
+            return;
+          }
           markShotCell(board, column, row);
           highlightShotCell(boardId, board, column, row);
           highlightSunkShip(boardId, board, shipBoard);
@@ -626,12 +681,6 @@ $(document).ready(function () {
       for (let column = 0; column < length; column++) {
         $(`#${boardId}-${column + 1}-${row + 1}`).off(`click`);
       }
-    }
-  }
-  function hasBeenShotAlert(board, column, row) {
-    if (board[row][column].shot) {
-      $(`#header`).html(`<h1>Silly...</h1>`);
-      alert(`Już tutaj strzelałeś, głupku...`);
     }
   }
   function markShotCell(board, column, row) {

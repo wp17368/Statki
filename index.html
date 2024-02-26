@@ -26,46 +26,10 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="flex-column d-flex my-auto">
-          <header id="header" class="invisible">
-            <h1>Ustaw swoją flotę na morzu</h1>
-          </header>
-          <input
-            autocomplete="off"
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="off"
-            class="w-100"
-            type="text"
-            id="player1-input"
-            placeholder="Podaj swoją nazwę"
-          />
-          <input
-            autocomplete="off"
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="off"
-            type="text"
-            id="player2-input"
-            class="invisible"
-            placeholder="Podaj swoją nazwę"
-          />
-          <button id="player-name-button" class="mx-auto">Zatwierdź</button>
-          <table id="shootingBoard" class="invisible"></table>
-          <table id="bluePrint" class="invisible"></table>
-          <button id="place-ship-button" class="mx-auto invisible">
-            Zatwierdź
-          </button>
-          <button class="invisible" id="finish-setup-1">Zatwierdź flotę</button>
-          <button class="invisible" id="finish-setup-2">Zatwierdź flotę</button>
-          <button id="begin-game-button" class="invisible">
-            Rozpocznij grę
-          </button>
-        </div>
-      </div>
-    </div>
+    <div
+      id="app"
+      class="container-fluid min-vh-100 d-flex justify-content-center align-items-center"
+    ></div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
